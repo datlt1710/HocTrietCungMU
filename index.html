@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <!-- Nhạc nền phát ngay khi vào trang -->
+    <!-- Nhạc nền -->
     <audio id="bg-music" loop autoplay src="glory.mp3"></audio>
 
     <div class="main-container">
@@ -23,19 +23,19 @@
             <div id="intro-screen" class="screen">
                 <h2>GIỚI THIỆU & HƯỚNG DẪN CHƠI</h2>
                 <div class="rules-box">
-                    <p>🔥 <strong>Cốt truyện:</strong> Manchester United hiện đang đứng bét bảng Premier League (Hạng 10/10). Nhiệm vụ của bạn là giải các câu hỏi Triết học để giúp Quỷ Đỏ bứt phá vô địch!</p>
+                    <p>🔥 <strong>Cốt truyện:</strong> Manchester United hiện đang đứng bét bảng Premier League (Hạng 10/10). Nhiệm vụ của bạn là giải các câu hỏi Triết học để giúp Quỷ Đỏ sút Penalty thăng hạng vô địch!</p>
                     <hr>
                     <p>💡 <strong>Cách điền đáp án:</strong></p>
                     <ul>
                         <li>Quan sát gợi ý và các chữ cái bị xáo trộn.</li>
-                        <li>Nhập đáp án <strong>VIẾT LIỀN KHÔNG DẤU</strong> (Ví dụ: Gợi ý "Hệ thống tri thức..." &#10145; Đáp án: <code>TRIETHOC</code>).</li>
+                        <li>Nhập đáp án <strong>VIẾT LIỀN KHÔNG DẤU</strong> (Ví dụ: <code>TRIETHOC</code>).</li>
                         <li>Có thể bấm phím <strong>Enter</strong> hoặc nút <strong>Gửi Đáp Án</strong>.</li>
                     </ul>
                     <hr>
-                    <p>🏆 <strong>Luật leo hạng:</strong></p>
+                    <p>🏆 <strong>Luật Penalty:</strong></p>
                     <ul>
-                        <li><strong>Trả lời ĐÚNG:</strong> MU thăng 1 hạng &#11014;</li>
-                        <li><strong>Trả lời SAI:</strong> MU tụt 1 hạng &#11015;</li>
+                        <li><strong>Trả lời ĐÚNG:</strong> Sút VÀO lưới &#10145; MU thăng 1 hạng &#11014;</li>
+                        <li><strong>Trả lời SAI:</strong> Sút TRƯỢT ra ngoài &#10145; MU tụt 1 hạng &#11015;</li>
                     </ul>
                 </div>
                 <button class="btn btn-pulse" onclick="goToGame()">ĐÃ HỂU - BẮT ĐẦU VÀO TRẬN!</button>
@@ -46,6 +46,14 @@
                 <div class="status-bar">
                     <span id="question-count">Câu 1/10</span>
                     <span id="current-rank" class="rank-badge">Hạng: 10/10</span>
+                </div>
+
+                <!-- KHUNG MÔ PHỎNG SÂN BÓNG PENALTY ANIMATION -->
+                <div class="penalty-pitch">
+                    <div class="goal-net" id="goal-net"></div>
+                    <div class="goalkeeper" id="goalkeeper">🧤</div>
+                    <div class="ball" id="ball">⚽</div>
+                    <div class="player-mu" id="player-mu">🏃‍♂️🔴</div>
                 </div>
 
                 <div class="question-box">
@@ -60,7 +68,7 @@
 
                 <div class="input-section">
                     <input type="text" id="user-input" placeholder="Nhập đáp án (không dấu)..." autocomplete="off">
-                    <button class="btn" onclick="checkAnswer()">Gửi Đáp Án</button>
+                    <button class="btn" id="submit-btn" onclick="checkAnswer()">SÚT PENALTY!</button>
                 </div>
 
                 <div id="feedback" class="feedback"></div>
@@ -69,16 +77,25 @@
             <!-- Màn hình 3: Kết thúc -->
             <div id="end-screen" class="screen hidden">
                 <h2 id="final-title">KẾT THÚC MÙA GIẢI</h2>
+                
+                <!-- Thắng (Top 1) -->
                 <div id="trophy-box" class="hidden">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176294.png" alt="Cúp Vô Địch" class="trophy-img">
+                    <img src="https://images.unsplash.com/photo-1568282218808-4b20a440191b?q=80&w=800&auto=format&fit=crop" alt="MU Nâng Cúp" class="result-img win-img">
                     <p class="congrats">CHÚC MỪNG MANCHESTER UNITED ĐÃ VÔ ĐỊCH PREMIER LEAGUE!</p>
                 </div>
+
+                <!-- Thất Bại (Top 2-10) -->
+                <div id="sad-box" class="hidden">
+                    <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=800&auto=format&fit=crop" alt="MU Buồn" class="result-img sad-img">
+                    <p class="fail-text">RẤT TIẾC! MU VẪN CHƯA THỂ LÊN ĐỈNH PREMIER LEAGUE MÙA NÀY...</p>
+                </div>
+
                 <p id="final-rank-text" class="final-score"></p>
                 <button class="btn" onclick="restartGame()">Chơi Lại Từ Đầu</button>
             </div>
         </div>
 
-        <!-- Bảng Xếp Hạng Có Logo -->
+        <!-- Bảng Xếp Hạng -->
         <div class="leaderboard-card">
             <h2>BẢNG XẾP HẠNG (10 ĐỘI)</h2>
             <ul id="leaderboard-list"></ul>

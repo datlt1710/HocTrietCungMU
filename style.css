@@ -46,7 +46,7 @@ body {
 .leaderboard-card {
     flex: 1;
     min-width: 290px;
-    max-height: 580px;
+    max-height: 640px;
     overflow-y: auto;
 }
 
@@ -141,6 +141,89 @@ h2 {
     border-radius: 20px;
 }
 
+/* KHUNG PHẠM ĐỀN PENALTY ANIMATION */
+.penalty-pitch {
+    position: relative;
+    width: 100%;
+    height: 140px;
+    background: linear-gradient(to bottom, #1e4620, #2e7d32);
+    border-radius: 12px;
+    border: 2px solid #fff;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+}
+
+.goal-net {
+    position: absolute;
+    top: 5px;
+    width: 140px;
+    height: 45px;
+    border: 3px solid #fff;
+    background: repeating-linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1) 5px, transparent 5px, transparent 10px);
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+}
+
+.goalkeeper {
+    position: absolute;
+    top: 25px;
+    font-size: 24px;
+    transition: all 0.5s ease;
+}
+
+.ball {
+    position: absolute;
+    bottom: 20px;
+    font-size: 22px;
+    transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.player-mu {
+    position: absolute;
+    bottom: 10px;
+    left: 30%;
+    font-size: 28px;
+    transition: all 0.4s ease;
+}
+
+/* Các Animation Penalty */
+.player-run {
+    animation: playerKick 0.5s forwards;
+}
+
+@keyframes playerKick {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(40px, -10px); }
+    100% { transform: translate(60px, -15px); }
+}
+
+/* Sút VÀO (Goal) */
+.ball-goal {
+    transform: translate(35px, -85px) scale(0.65) rotate(720deg) !important;
+}
+
+.goal-shake {
+    animation: netShake 0.3s 0.7s ease-in-out 2;
+}
+
+@keyframes netShake {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Sút TRƯỢT (Miss) */
+.ball-miss {
+    transform: translate(-90px, -110px) scale(0.5) rotate(-540deg) !important;
+}
+
+.keeper-save {
+    transform: translate(45px, 0) !important;
+}
+
 .question-box {
     background: #282828;
     padding: 15px;
@@ -204,6 +287,12 @@ input[type="text"]:focus {
     box-shadow: 0 4px 12px rgba(218, 2, 14, 0.5);
 }
 
+.btn:disabled {
+    background: #555;
+    cursor: not-allowed;
+    transform: none;
+}
+
 .btn-pulse {
     animation: btnPulse 1.5s infinite;
 }
@@ -229,7 +318,6 @@ input[type="text"]:focus {
     100% { transform: scale(1); opacity: 1; }
 }
 
-/* Bảng Xếp Hạng & Logo Đội Bóng */
 #leaderboard-list {
     list-style: none;
 }
@@ -285,20 +373,41 @@ input[type="text"]:focus {
     text-align: center;
 }
 
-.trophy-img {
-    width: 130px;
-    margin: 15px 0;
-    animation: trophyBounce 1.2s infinite alternate;
+.result-img {
+    width: 100%;
+    max-width: 260px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 12px 0;
+    border: 3px solid #ffe500;
+    box-shadow: 0 0 15px rgba(255, 229, 0, 0.4);
 }
 
-@keyframes trophyBounce {
-    from { transform: translateY(0) rotate(-3deg); }
-    to { transform: translateY(-15px) rotate(3deg); }
+.win-img {
+    animation: zoomGlow 1.5s infinite alternate;
+}
+
+.sad-img {
+    border-color: #da020e;
+    box-shadow: 0 0 15px rgba(218, 2, 14, 0.5);
+    filter: grayscale(30%);
+}
+
+@keyframes zoomGlow {
+    from { transform: scale(1); }
+    to { transform: scale(1.04); }
 }
 
 .congrats {
     color: #ffe500;
-    font-size: 18px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.fail-text {
+    color: #ff4d4d;
+    font-size: 16px;
     font-weight: bold;
 }
 

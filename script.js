@@ -1,4 +1,3 @@
-// Danh sách 10 câu hỏi Triết học (Đã cập nhật đúng BIENCHUNG & SIEUHINH)
 const questionsData = [
     { answer: "TRIETHOC", hint: "Hệ thống tri thức lý luận chung nhất về thế giới và vị trí con người trong thế giới đó." },
     { answer: "VATCHAT", hint: "Thực tại khách quan được đem lại cho con người trong cảm giác (Định nghĩa Lênin)." },
@@ -12,7 +11,6 @@ const questionsData = [
     { answer: "CHAT", hint: "Tính quy định vốn có của sự vật, là sự thống nhất hữu cơ của các thuộc tính." }
 ];
 
-// Đường dẫn Logo ổn định cho cả 10 đội bóng
 const teamsData = {
     "MANCHESTER UNITED": "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg",
     "Arsenal": "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg",
@@ -26,16 +24,15 @@ const teamsData = {
     "Brighton": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Brighton_%26_Hove_Albion_logo.svg"
 };
 
-// List 9 đội đối thủ
 const otherTeams = [
     "Arsenal", "Man City", "Liverpool", "Aston Villa", 
     "Tottenham", "Chelsea", "Newcastle", "West Ham", "Brighton"
 ];
 
 let currentQuestionIndex = 0;
-let muRank = 10; // Ban đầu bét bảng (Hạng 10)
+let muRank = 10;
+let isAnimating = false;
 
-// Tự phát nhạc khi chạm nhẹ vào trang
 window.addEventListener('click', () => {
     let music = document.getElementById("bg-music");
     if (music && music.paused) {
@@ -43,7 +40,6 @@ window.addEventListener('click', () => {
     }
 }, { once: true });
 
-// Xáo trộn chữ cái chuẩn xác theo từ đáp án
 function scrambleWord(word) {
     let arr = word.split('');
     for (let i = arr.length - 1; i > 0; i--) {
@@ -53,7 +49,6 @@ function scrambleWord(word) {
     return arr.join(' ');
 }
 
-// Chuyển sang màn chơi
 function goToGame() {
     let music = document.getElementById("bg-music");
     if (music) music.play().catch(() => {});
@@ -68,8 +63,23 @@ function goToGame() {
     loadQuestion();
 }
 
-// Tải câu hỏi
+function resetPenaltyAnimation() {
+    let player = document.getElementById("player-mu");
+    let ball = document.getElementById("ball");
+    let keeper = document.getElementById("goalkeeper");
+    let net = document.getElementById("goal-net");
+
+    player.className = "player-mu";
+    ball.className = "ball";
+    keeper.className = "goalkeeper";
+    net.className = "goal-net";
+}
+
 function loadQuestion() {
+    resetPenaltyAnimation();
+    isAnimating = false;
+    document.getElementById("submit-btn").disabled = false;
+
     let q = questionsData[currentQuestionIndex];
     document.getElementById("question-count").innerText = `Câu ${currentQuestionIndex + 1}/10`;
     document.getElementById("current-rank").innerText = `Hạng: ${muRank}/10`;
@@ -80,33 +90,56 @@ function loadQuestion() {
     document.getElementById("user-input").focus();
 }
 
-// Kiểm tra đáp án
 function checkAnswer() {
+    if (isAnimating) return;
+
     let input = document.getElementById("user-input").value.trim().toUpperCase();
     let correctAnswer = questionsData[currentQuestionIndex].answer;
     let feedback = document.getElementById("feedback");
 
     if (input === "") return;
 
+    isAnimating = true;
+    document.getElementById("submit-btn").disabled = true;
+
+    let player = document.getElementById("player-mu");
+    let ball = document.getElementById("ball");
+    let keeper = document.getElementById("goalkeeper");
+    let net = document.getElementById("goal-net");
     let animClass = "";
 
-    if (input === correctAnswer) {
-        feedback.className = "feedback correct";
-        feedback.innerText = "🎉 CHÍNH XÁC! MU LEO THÊM 1 BẬC!";
-        if (muRank > 1) {
-            muRank--;
-            animClass = "rank-up";
-        }
-    } else {
-        feedback.className = "feedback wrong";
-        feedback.innerText = `❌ SAI RỒI! Đáp án là: ${correctAnswer}. MU TỤT 1 BẬC!`;
-        if (muRank < 10) {
-            muRank++;
-            animClass = "rank-down";
-        }
-    }
+    // Kích hoạt cầu thủ chạy sút bóng
+    player.classList.add("player-run");
 
-    updateLeaderboard(animClass);
+    setTimeout(() => {
+        if (input === correctAnswer) {
+            // SÚT VÀO
+            ball.classList.add("ball-goal");
+            net.classList.add("goal-shake");
+
+            feedback.className = "feedback correct";
+            feedback.innerText = "⚽ VÀOOO! PENALTY THÀNH CÔNG! MU LEO HẠNG!";
+            
+            if (muRank > 1) {
+                muRank--;
+                animClass = "rank-up";
+            }
+        } else {
+            // SÚT TRƯỢT
+            ball.classList.add("ball-miss");
+            keeper.classList.add("keeper-save");
+
+            feedback.className = "feedback wrong";
+            feedback.innerText = `❌ SÚT HỎNG! Đáp án đúng: ${correctAnswer}. MU TỤT HẠNG!`;
+            
+            if (muRank < 10) {
+                muRank++;
+                animClass = "rank-down";
+            }
+        }
+
+        updateLeaderboard(animClass);
+    }, 400);
 
     setTimeout(() => {
         currentQuestionIndex++;
@@ -115,17 +148,15 @@ function checkAnswer() {
         } else {
             endGame();
         }
-    }, 1600);
+    }, 2200);
 }
 
-// Nhấn Enter để gửi
 document.getElementById("user-input")?.addEventListener("keypress", function(e) {
     if (e.key === "Enter") {
         checkAnswer();
     }
 });
 
-// Cập nhật Bảng xếp hạng có kèm Logo
 function updateLeaderboard(animClass = "") {
     let list = document.getElementById("leaderboard-list");
     list.innerHTML = "";
@@ -135,7 +166,6 @@ function updateLeaderboard(animClass = "") {
 
     rankings.forEach((team, index) => {
         let li = document.createElement("li");
-        
         let logoUrl = teamsData[team] || "";
         
         li.innerHTML = `
@@ -156,24 +186,25 @@ function updateLeaderboard(animClass = "") {
     });
 }
 
-// Màn hình kết thúc
 function endGame() {
     document.getElementById("game-screen").classList.add("hidden");
     document.getElementById("end-screen").classList.remove("hidden");
 
     let finalRankText = document.getElementById("final-rank-text");
     let trophyBox = document.getElementById("trophy-box");
+    let sadBox = document.getElementById("sad-box");
 
     finalRankText.innerText = `Vị trí chung cuộc của MU: Hạng ${muRank}/10`;
 
     if (muRank === 1) {
         trophyBox.classList.remove("hidden");
+        sadBox.classList.add("hidden");
     } else {
+        sadBox.classList.remove("hidden");
         trophyBox.classList.add("hidden");
     }
 }
 
-// Chơi lại
 function restartGame() {
     document.getElementById("end-screen").classList.add("hidden");
     document.getElementById("intro-screen").classList.remove("hidden");
@@ -181,5 +212,4 @@ function restartGame() {
     updateLeaderboard();
 }
 
-// Khởi tạo bảng xếp hạng ban đầu
 updateLeaderboard();
