@@ -70,17 +70,18 @@ const m1Questions = [
     { answer: "CHAT", hint: "Tính quy định vốn có của sự vật, là sự thống nhất hữu cơ các thuộc tính." }
 ];
 
+// CẬP NHẬT LINK LOGO 10 CLB ỔN ĐỊNH
 const teamsData = {
     "MANCHESTER UNITED": "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg",
     "Arsenal": "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg",
     "Man City": "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg",
     "Liverpool": "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg",
-    "Aston Villa": "https://upload.wikimedia.org/wikipedia/commons/f/f9/Aston_Villa_FC_crest_%282016%29.svg",
+    "Aston Villa": "https://upload.wikimedia.org/wikipedia/hif/5/57/Aston_Villa.png?utm_source=hif.wikipedia.org&utm_campaign=index&utm_content=original",
     "Tottenham": "https://upload.wikimedia.org/wikipedia/en/b/b4/Tottenham_Hotspur.svg",
     "Chelsea": "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg",
     "Newcastle": "https://upload.wikimedia.org/wikipedia/en/5/56/Newcastle_United_Logo.svg",
     "West Ham": "https://upload.wikimedia.org/wikipedia/en/c/c2/West_Ham_United_FC_logo.svg",
-    "Brighton": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Brighton_%26_Hove_Albion_logo.svg"
+    "Brighton": "https://thumb.wikimedia.org/wikipedia/vi/thumb/f/fd/Brighton_%26_Hove_Albion_logo.svg/3840px-Brighton_%26_Hove_Albion_logo.svg.png?utm_source=vi.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
 };
 const otherTeams = ["Arsenal", "Man City", "Liverpool", "Aston Villa", "Tottenham", "Chelsea", "Newcastle", "West Ham", "Brighton"];
 
