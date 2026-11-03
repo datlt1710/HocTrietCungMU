@@ -3,107 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Học Triết Cùng MU</title>
-    <!-- Thêm ?v=2.0 để buộc trình duyệt tải CSS mới nhất, tránh dính cache cũ -->
-    <link rel="stylesheet" href="style.css?v=2.0">
+    <title>ĐẠI CHIẾN TRIẾT HỌC - MANCHESTER UNITED</title>
+    <!-- Gắn mã ?v=4.0 để trình duyệt tự động cập nhật CSS mới, tránh dính cache cũ -->
+    <link rel="stylesheet" href="style.css?v=4.0">
 </head>
 <body>
 
-    <!-- Nhạc nền -->
-    <audio id="bg-music" loop autoplay src="glory.mp3"></audio>
+    <audio id="bg-music" loop src="glory.mp3"></audio>
 
     <div class="main-container">
-        <!-- Khung Game Chính -->
-        <div class="game-card">
+        
+        <!-- MÀN HÌNH CHỌN CHẾ ĐỘ CHƠI (LOBBY) -->
+        <div id="mode-selection-screen" class="game-card center-card">
             <div class="header">
                 <img src="https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg" alt="MU Logo" class="logo glow-animation">
-                <h1>HỌC TRIẾT CÙNG MU</h1>
+                <h1>ĐẠI CHIẾN TRIẾT HỌC MU</h1>
+                <p class="subtitle">Hãy lựa chọn chế độ thi đấu của bạn</p>
             </div>
 
-            <!-- Màn hình 1: Giới thiệu & Hướng dẫn -->
-            <div id="intro-screen" class="screen">
-                <h2>GIỚI THIỆU & HƯỚNG DẪN CHƠI</h2>
-                <div class="rules-box">
-                    <p>🔥 <strong>Cốt truyện:</strong> Manchester United hiện đang đứng bét bảng Premier League (Hạng 10/10). Nhiệm vụ của bạn là giải các câu hỏi Triết học để giúp Quỷ Đỏ sút Penalty thăng hạng vô địch!</p>
-                    <hr>
-                    <p>💡 <strong>Cách điền đáp án:</strong></p>
-                    <ul>
-                        <li>Quan sát gợi ý và các chữ cái bị xáo trộn.</li>
-                        <li>Nhập đáp án <strong>VIẾT LIỀN KHÔNG DẤU</strong> (Ví dụ: <code>TRIETHOC</code>).</li>
-                        <li>Có thể bấm phím <strong>Enter</strong> hoặc nút <strong>Gửi Đáp Án</strong>.</li>
-                    </ul>
-                    <hr>
-                    <p>🏆 <strong>Luật Penalty:</strong></p>
-                    <ul>
-                        <li><strong>Trả lời ĐÚNG:</strong> Sút VÀO lưới &#10145; MU thăng 1 hạng &#11014;</li>
-                        <li><strong>Trả lời SAI:</strong> Sút TRƯỢT ra ngoài &#10145; MU tụt 1 hạng &#11015;</li>
-                    </ul>
-                </div>
-                <button class="btn btn-pulse" onclick="goToGame()">ĐÃ HIỂU - BẮT ĐẦU VÀO TRẬN!</button>
-            </div>
-
-            <!-- Màn hình 2: Chơi game -->
-            <div id="game-screen" class="screen hidden">
-                <div class="status-bar">
-                    <span id="question-count">Câu 1/10</span>
-                    <span id="current-rank" class="rank-badge">Hạng: 10/10</span>
+            <div class="mode-buttons-container">
+                <div class="mode-card" onclick="selectGameMode(1)">
+                    <div class="mode-icon">
+                        <img src="bruno.png" alt="Bruno" class="lobby-icon">
+                    </div>
+                    <h2>1 NGƯỜI CHƠI</h2>
+                    <p>Học Triết Cùng MU: Giải ô chữ xáo trộn, sút Penalty giúp MU thoát bét bảng leo đỉnh Premier League!</p>
+                    <button class="btn btn-pulse">VÀO CHƠI MÌNH</button>
                 </div>
 
-                <!-- KHUNG MÔ PHỎNG SÂN BÓNG PENALTY ANIMATION -->
-                <div class="penalty-pitch">
-                    <div class="goal-net" id="goal-net"></div>
-                    <div class="goalkeeper" id="goalkeeper">🧤</div>
-                    <div class="ball" id="ball">⚽</div>
-                    <div class="player-mu" id="player-mu">🏃‍♂️🔴</div>
+                <div class="mode-card derby-card" onclick="selectGameMode(2)">
+                    <div class="mode-icon dual-icon">
+                        <img src="bruno.png" alt="Bruno" class="lobby-icon icon-left">
+                        <img src="haaland.png" alt="Haaland" class="lobby-icon icon-right">
+                    </div>
+                    <h2>2 NGƯỜI CHƠI (DERBY)</h2>
+                    <p>Đại Chiến Penalty MU vs MC: Thi đấu trắc nghiệm đối kháng trực tiếp, phân định thắng thua trên chấm 11m!</p>
+                    <button class="btn btn-pulse btn-blue">SOLO DERBY</button>
                 </div>
-
-                <div class="question-box">
-                    <h3>Gợi Ý Chìa Khóa:</h3>
-                    <p id="hint-text">Đang tải...</p>
-                </div>
-
-                <div class="scrambled-box">
-                    <span>Các chữ cái xáo trộn:</span>
-                    <div id="scrambled-letters" class="letters"></div>
-                </div>
-
-                <div class="input-section">
-                    <input type="text" id="user-input" placeholder="Nhập đáp án (không dấu)..." autocomplete="off">
-                    <button class="btn" id="submit-btn" onclick="checkAnswer()">SÚT PENALTY!</button>
-                </div>
-
-                <div id="feedback" class="feedback"></div>
-            </div>
-
-            <!-- Màn hình 3: Kết thúc -->
-            <div id="end-screen" class="screen hidden">
-                <h2 id="final-title">KẾT THÚC MÙA GIẢI</h2>
-                
-                <!-- Thắng (Top 1) -->
-                <div id="trophy-box" class="hidden">
-                    <img src="https://images.unsplash.com/photo-1568282218808-4b20a440191b?q=80&w=800&auto=format&fit=crop" alt="MU Nâng Cúp" class="result-img win-img">
-                    <p class="congrats">CHÚC MỪNG MANCHESTER UNITED ĐÃ VÔ ĐỊCH PREMIER LEAGUE!</p>
-                </div>
-
-                <!-- Thất Bại (Top 2-10) -->
-                <div id="sad-box" class="hidden">
-                    <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=800&auto=format&fit=crop" alt="MU Buồn" class="result-img sad-img">
-                    <p class="fail-text">RẤT TIẾC! MU VẪN CHƯA THỂ LÊN ĐỈNH PREMIER LEAGUE MÙA NÀY...</p>
-                </div>
-
-                <p id="final-rank-text" class="final-score"></p>
-                <button class="btn" onclick="restartGame()">Chơi Lại Từ Đầu</button>
             </div>
         </div>
 
-        <!-- Bảng Xếp Hạng -->
-        <div class="leaderboard-card">
-            <h2>BẢNG XẾP HẠNG (10 ĐỘI)</h2>
-            <ul id="leaderboard-list"></ul>
+        <!-- ==================== MODE 1: 1 NGƯỜI CHƠI ==================== -->
+        <div id="mode1-container" class="mode-container hidden">
+            <div class="game-card">
+                <div class="header flex-header">
+                    <button class="btn-back" onclick="backToLobby()">🏠 Trang chủ</button>
+                    <h1>HỌC TRIẾT CÙNG MU</h1>
+                </div>
+
+                <div id="m1-intro" class="screen">
+                    <h2>GIỚI THIỆU & HƯỚNG DẪN</h2>
+                    <div class="rules-box">
+                        <p>🔥 MU đang đứng bét bảng (10/10). Giải các ô chữ Triết học để giúp Quỷ Đỏ sút Penalty thăng hạng!</p>
+                        <hr>
+                        <ul>
+                            <li>Nhập đáp án <strong>VIẾT LIỀN KHÔNG DẤU</strong> (VD: <code>TRIETHOC</code>).</li>
+                            <li>Sút VÀO &#10145; Thăng 1 hạng | Sút TRƯỢT &#10145; Tụt 1 hạng.</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-pulse" onclick="startMode1()">BẮT ĐẦU NGAY!</button>
+                </div>
+
+                <div id="m1-game" class="screen hidden">
+                    <div class="status-bar">
+                        <span id="m1-q-count">Câu 1/10</span>
+                        <span id="m1-rank" class="rank-badge">Hạng: 10/10</span>
+                    </div>
+
+                    <div class="penalty-pitch">
+                        <div class="stadium-lights"></div>
+                        <div class="goal-net" id="m1-net"></div>
+                        <img src="donnarumma.png" class="goalkeeper-img" id="m1-keeper" alt="Keeper">
+                        <div class="ball" id="m1-ball">⚽</div>
+                        <img src="bruno.png" class="player-mu-img" id="m1-player" alt="Bruno">
+                    </div>
+
+                    <div class="question-box">
+                        <h3>Gợi Ý Chìa Khóa:</h3>
+                        <p id="m1-hint">Đang tải...</p>
+                    </div>
+
+                    <div class="scrambled-box">
+                        <span>Các chữ cái xáo trộn:</span>
+                        <div id="m1-letters" class="letters"></div>
+                    </div>
+
+                    <div class="input-section">
+                        <input type="text" id="m1-input" placeholder="Nhập đáp án (không dấu)..." autocomplete="off">
+                        <button class="btn" id="m1-submit-btn" onclick="m1CheckAnswer()">SÚT PENALTY!</button>
+                    </div>
+
+                    <div id="m1-feedback" class="feedback"></div>
+                </div>
+
+                <div id="m1-end" class="screen hidden text-center">
+                    <h2 id="final-title">KẾT THÚC MÙA GIẢI</h2>
+                    
+                    <!-- Khối kết quả cuối cùng: JavaScript sẽ đổi src ảnh -->
+                    <div id="m1-result-box" class="result-box">
+                        <img id="m1-result-img" src="" alt="Kết quả" class="result-img-end">
+                        
+                        <!-- Văn bản Chúc mừng (ẩn mặc định) -->
+                        <div id="m1-congrats-text" class="hidden">
+                            <p class="congrats-title">CHÚC MỪNG MAN UNITED VÔ ĐỊCH!</p>
+                            <p class="congrats-sub">Bruno và các đồng đội đã chính thức lên đỉnh Premier League.</p>
+                        </div>
+
+                        <!-- Văn bản Thất bại (ẩn mặc định) -->
+                        <div id="m1-fail-text" class="hidden">
+                            <p class="fail-title-end">RẤT TIẾC! MU VẪN CHƯA THỂ LÊN ĐỈNH...</p>
+                            <p class="fail-sub-end">Mùa giải khép lại với nhiều tiếc nuối cho Bruno và người hâm mộ.</p>
+                        </div>
+                    </div>
+
+                    <p id="m1-final-rank" class="final-score"></p>
+                    <button class="btn btn-pulse" onclick="startMode1()">Chơi Lại Từ Đầu</button>
+                </div>
+            </div>
+
+            <div class="leaderboard-card">
+                <h2>BẢNG XẾP HẠNG (10 ĐỘI)</h2>
+                <ul id="m1-leaderboard"></ul>
+            </div>
         </div>
+
+        <!-- ==================== MODE 2: 2 NGƯỜI CHƠI (DERBY MU vs MC) ==================== -->
+        <div id="mode2-container" class="mode-container hidden">
+            <div class="game-card full-width-card">
+                <div class="header flex-header">
+                    <button class="btn-back" onclick="backToLobby()">🏠 Trang chủ</button>
+                    <h1 class="derby-title">🔴 DERBY MANCHESTER: MU VS MC 🔵</h1>
+                </div>
+
+                <div class="scoreboard-derby">
+                    <div class="team-score red-side">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg" class="team-badge">
+                        <h2>MAN UNITED</h2>
+                        <div class="pen-dots" id="mu-dots"></div>
+                    </div>
+
+                    <div class="vs-badge" id="derby-status-text">LƯỢT 1</div>
+
+                    <div class="team-score blue-side">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg" class="team-badge">
+                        <h2>MAN CITY</h2>
+                        <div class="pen-dots" id="mc-dots"></div>
+                    </div>
+                </div>
+
+                <div class="penalty-pitch derby-pitch">
+                    <div class="stadium-lights"></div>
+                    <div class="goal-net" id="m2-net"></div>
+                    <img src="donnarumma.png" class="goalkeeper-img" id="m2-keeper" alt="Keeper">
+                    <div class="ball" id="m2-ball">⚽</div>
+                    <img src="bruno.png" class="player-mu-img" id="m2-player" alt="Player">
+                </div>
+
+                <div id="m2-quiz-section" class="screen">
+                    <div class="turn-banner" id="turn-banner">ĐẾN LƯỢT: MANCHESTER UNITED SÚT!</div>
+                    
+                    <div class="question-box derby-qbox">
+                        <span class="diff-tag" id="m2-diff">Độ khó: Dễ</span>
+                        <h3 id="m2-question">Câu hỏi trắc nghiệm...</h3>
+                    </div>
+
+                    <div class="options-grid" id="m2-options"></div>
+
+                    <div id="m2-feedback" class="feedback"></div>
+                </div>
+
+                <div id="m2-end" class="screen hidden text-center">
+                    <h1 id="m2-wintitle" class="winner-announcement">MU CHIẾN THẮNG!</h1>
+                    <p id="m2-winscore" class="final-score"></p>
+                    <button class="btn btn-pulse" onclick="startMode2()">ĐÁ BẮN LẠI DERBY</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Thêm ?v=2.0 để buộc trình duyệt tải JS mới nhất, tránh dính cache cũ -->
-    <script src="script.js?v=2.0"></script>
+    <!-- Gắn mã ?v=4.0 để trình duyệt tự động cập nhật JS mới -->
+    <script src="script.js?v=4.0"></script>
 </body>
 </html>
