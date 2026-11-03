@@ -4,8 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ĐẠI CHIẾN TRIẾT HỌC - MANCHESTER UNITED</title>
-    <!-- Gắn mã ?v=4.0 để trình duyệt tự động cập nhật CSS mới, tránh dính cache cũ -->
-    <link rel="stylesheet" href="style.css?v=4.0">
+    
+    <!-- CẤU HÌNH TỰ ĐỘNG XÓA CACHE (BROWSER KHÔNG LƯU BẢN CHỤP) -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <!-- QUẢN LÝ PHIÊN BẢN (CACHE BUSTING v=5.0) -->
+    <link rel="stylesheet" href="style.css?v=5.0">
 </head>
 <body>
 
@@ -43,7 +49,7 @@
             </div>
         </div>
 
-        <!-- ==================== MODE 1: 1 NGƯỜI CHƠI ==================== -->
+        <!-- MODE 1: 1 NGƯỜI CHƠI -->
         <div id="mode1-container" class="mode-container hidden">
             <div class="game-card">
                 <div class="header flex-header">
@@ -99,17 +105,14 @@
                 <div id="m1-end" class="screen hidden text-center">
                     <h2 id="final-title">KẾT THÚC MÙA GIẢI</h2>
                     
-                    <!-- Khối kết quả cuối cùng: JavaScript sẽ đổi src ảnh -->
                     <div id="m1-result-box" class="result-box">
                         <img id="m1-result-img" src="" alt="Kết quả" class="result-img-end">
                         
-                        <!-- Văn bản Chúc mừng (ẩn mặc định) -->
                         <div id="m1-congrats-text" class="hidden">
                             <p class="congrats-title">CHÚC MỪNG MAN UNITED VÔ ĐỊCH!</p>
                             <p class="congrats-sub">Bruno và các đồng đội đã chính thức lên đỉnh Premier League.</p>
                         </div>
 
-                        <!-- Văn bản Thất bại (ẩn mặc định) -->
                         <div id="m1-fail-text" class="hidden">
                             <p class="fail-title-end">RẤT TIẾC! MU VẪN CHƯA THỂ LÊN ĐỈNH...</p>
                             <p class="fail-sub-end">Mùa giải khép lại với nhiều tiếc nuối cho Bruno và người hâm mộ.</p>
@@ -127,7 +130,7 @@
             </div>
         </div>
 
-        <!-- ==================== MODE 2: 2 NGƯỜI CHƠI (DERBY MU vs MC) ==================== -->
+        <!-- MODE 2: 2 NGƯỜI CHƠI (DERBY MU vs MC) -->
         <div id="mode2-container" class="mode-container hidden">
             <div class="game-card full-width-card">
                 <div class="header flex-header">
@@ -182,7 +185,7 @@
 
     </div>
 
-    <!-- Gắn mã ?v=4.0 để trình duyệt tự động cập nhật JS mới -->
-    <script src="script.js?v=4.0"></script>
+    <!-- SCRIPT VỚI CACHE BUSTING v=5.0 -->
+    <script src="script.js?v=5.0"></script>
 </body>
 </html>
